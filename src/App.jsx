@@ -7,6 +7,9 @@ import HeaderComponent from "./components/HeaderComponent";
 import SearchFilterComponent from "./components/SearchFilterComponent";
 import ProductListComponent from "./components/ProductListComponent";
 import ProductPageTransition from "./components/ProductPageTransition";
+import CartContextProvider from "./services/Contexts/CartContextProvider";
+import ProductContextProvider from "./services/Contexts/ProductContextProvider";
+import CartComponent from "./components/CartComponent/CartList";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -73,13 +76,18 @@ function App() {
 
   return (
     <>
-      <HeaderComponent />
-      <SearchFilterComponent handleSearch={handleSearch} />
-      <ProductListComponent products={products} />
-      <ProductPageTransition
-        pageData={pageData}
-        onPageTransition={onPageTransition}
-      />
+      <CartContextProvider>
+        <HeaderComponent />
+        <CartComponent />
+        <ProductContextProvider>
+          <SearchFilterComponent handleSearch={handleSearch} />
+          <ProductListComponent products={products} />
+          <ProductPageTransition
+            pageData={pageData}
+            onPageTransition={onPageTransition}
+          />
+        </ProductContextProvider>
+      </CartContextProvider>
     </>
   );
 }
